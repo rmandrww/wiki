@@ -11,7 +11,7 @@
     <body>
         <div class="container-fluid">
             <div class="row">
-                <div class="sidebar col-md-2" style="position:fixed">
+                <div class="sidebar">
                     <h2>Wiki</h2>
                     <form action="{% url 'wiki:search' %}" method="get">
                         
@@ -30,7 +30,7 @@
                     {% block nav %}
                     {% endblock %}
                 </div>
-                <div class="main col offset-md-2">
+                <div class="main col-md-8">
                     {% block body %}
                     {% endblock %}
                 </div>

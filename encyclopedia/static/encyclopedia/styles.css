@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    background-color: white;
+    background-color: #fafafafa;
 }
 
 code {
@@ -19,7 +19,7 @@ textarea {
 
 .main {
     padding: 10px;
-    margin-left: 250px;
+    margin-left: 200px;
 }
 
 .search {
@@ -29,11 +29,11 @@ textarea {
 }
 
 .sidebar {
-    background-color: #f0f0f0;
+    background-color: #e0e0e0;
     height: 100%;
     padding: 20px;
     position: fixed;
-    width: 250px;
+    width: 200px;
 }
 
 .sidebar h2 {
@@ -41,5 +41,23 @@ textarea {
 }
 
 img {
-    max-width: 100%;
+    max-width: 80%;
+}
+
+td, th {
+    padding: 5px;
+}
+
+.search {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+input {
+    margin-bottom: 5px;
+}
+
+.sbutton {
+    font-size: 12px;
+    text-align: right;
 }

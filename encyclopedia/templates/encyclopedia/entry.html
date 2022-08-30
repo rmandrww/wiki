@@ -5,5 +5,6 @@
 {% endblock %}
 
 {% block body %}
+    <a class="cornerlink" href="{% url 'wiki:edit' entry %}">Edit</a>
     {{ content |safe}}
 {% endblock %}

@@ -7,11 +7,20 @@ import markdown2
 
 class ArticleForm(forms.Form):
     title = forms.CharField(label="Title" )
-    content = forms.CharField(label = "Content", widget=forms.Textarea(attrs = {'cols': 'auto',
+    content = forms.CharField(max_length = 20000, label = "Content", widget=forms.Textarea(attrs = {'cols': 'auto',
     'rows': '5',
     'placeholder': 'Start typing your article here!'}))
 
     title.widget.attrs.update({'class': 'titlebox', 'placeholder': 'Name your entry'})
+    content.widget.attrs.update({'class': 'contentbox'})
+
+class EditArticleForm (forms.Form):
+    title = forms.CharField(label="Title" )
+    content = forms.CharField(max_length = 20000, label = "Content", widget=forms.Textarea(attrs = {'cols': 'auto',
+    'rows': '5',
+    'placeholder': 'Start typing your article here!'}))
+
+    title.widget.attrs.update({'class': 'titlebox', 'readonly': 'readonly'})
     content.widget.attrs.update({'class': 'contentbox'})
 
 def index(request):
@@ -73,3 +82,25 @@ def newpage (request):
         "form": ArticleForm(),
         "error": '',
     })
+
+def editpage (request, entry):
+    if request.method == "POST":
+        form = ArticleForm (request.POST)
+        if form.is_valid():
+            print(form.cleaned_data["content"])
+            util.save_entry(form.cleaned_data["title"],form.cleaned_data["content"])
+            return redirect("wiki:entry", form.cleaned_data["title"])
+        else:
+            return render (request, "encyclopedia/new.html", {
+            "form": form,
+            "error": 'Invalid Form',
+            "entry": entry
+        })
+
+    else:
+        form = EditArticleForm ({'title': entry, 'content': util.get_entry(entry)})
+        return render (request, "encyclopedia/edit.html", {
+        "form": form,
+        "error": '',
+        "entry": entry
+        })

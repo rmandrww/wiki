@@ -1,0 +1,19 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    <a class="cornerlink" href="{% url 'wiki:entry' entry %}">Back</a>
+    <h1>Edit Page</h1>
+    <div><form action="{% url 'wiki:edit' 'entry' %}" method="post">
+        {% csrf_token %}
+        <div>{{ form.title.label }}</div>
+        <div>{{ form.title }}</div>
+        <div class="error">{{ error }}</div>
+        <div>{{ form.content.label }}</div>
+        <div>{{ form.content }}</div>
+        <input type="submit" class="sbutton">
+    </form></div>  
+{% endblock %}

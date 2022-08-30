@@ -41,7 +41,7 @@ textarea {
 }
 
 img {
-    max-width: 90%;
+    max-width: 100%;
 }
 
 td, th {
@@ -73,4 +73,9 @@ input {
 
 .error {
     color: red;
+}
+
+.cornerlink {
+    text-align: right;
+    float: right;
 }

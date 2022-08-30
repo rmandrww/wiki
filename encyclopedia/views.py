@@ -5,8 +5,14 @@ import random
 from . import util
 import markdown2
 
-class SearchForm(forms.Form):
-    search = forms.CharField(label="Search")
+class ArticleForm(forms.Form):
+    title = forms.CharField(label="Title" )
+    content = forms.CharField(label = "Content", widget=forms.Textarea(attrs = {'cols': 'auto',
+    'rows': '5',
+    'placeholder': 'Start typing your article here!'}))
+
+    title.widget.attrs.update({'class': 'titlebox', 'placeholder': 'Name your entry'})
+    content.widget.attrs.update({'class': 'contentbox'})
 
 def index(request):
     entries = util.list_entries()
@@ -48,3 +54,22 @@ def search (request):
 def randompage (request):
     a = random.choice(util.list_entries())
     return redirect ("wiki:entry", a)
+
+def newpage (request):
+    if request.method == "POST":
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            entries = util.list_entries()
+            for entry in entries:
+                if form.cleaned_data["title"] == entry:
+                    return render (request, "encyclopedia/new.html", {
+                    "form": form,
+                    "error": 'This article already exist!'})
+            
+            content = '# '+ form.cleaned_data["title"] + '\n\n' + form.cleaned_data["content"]
+            util.save_entry(form.cleaned_data["title"], content)
+            return redirect("wiki:entry", form.cleaned_data["title"])
+    return render (request, "encyclopedia/new.html", {
+        "form": ArticleForm(),
+        "error": '',
+    })

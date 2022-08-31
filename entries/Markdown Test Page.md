@@ -11,6 +11,8 @@
 
 ***
 
+Credits to [fullpipe from GitHub](https://github.com/fullpipe/markdown-test-page) for their testpage
+
 # <a name="Headings"></a>Headings
 
 # Heading one

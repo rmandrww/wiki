@@ -7,10 +7,10 @@
 {% block body %}
     <a class="cornerlink" href="{% url 'wiki:entry' entry %}">Back</a>
     <h1>Edit Page</h1>
-    <div><form action="{% url 'wiki:edit' 'entry' %}" method="post">
+    <div><form action="{% url 'wiki:edit' entry %}" method="post">
         {% csrf_token %}
         <div>{{ form.title.label }}</div>
-        <div><input type="text" name="title" value={{ entry }} class="titlebox" readonly="readonly" required="" id="id_title"></div>
+        <div><input type="text" name="title" value="{{ entry }}" class="titlebox" readonly="readonly" required="" id="id_title"></div>
         <div class="error">{{ error }}</div>
         <div>{{ form.content.label }}</div>
         <div>{{ form.content }}</div>

@@ -99,10 +99,10 @@ def newpage (request):
 def editpage (request, entry):
     if request.method == "POST":
         form = ArticleForm (request.POST)
+        print(entry)
         if form.is_valid():
-            print(form.cleaned_data["content"])
-            util.save_entry(form.cleaned_data["title"],form.cleaned_data["content"])
-            return redirect("wiki:entry", form.cleaned_data["title"])
+            util.save_entry(entry,form.cleaned_data["content"])
+            return redirect("wiki:entry", entry)
         else:
             return render (request, "encyclopedia/new.html", {
             "form": form,
@@ -112,8 +112,9 @@ def editpage (request, entry):
 
     else:
         form = ArticleForm ({'title': entry, 'content': util.get_entry(entry)})
+        print(entry)
         return render (request, "encyclopedia/edit.html", {
         "form": form,
         "error": '',
-        "entry": entry
+        "entry": entry,
         })

@@ -16,6 +16,8 @@ class ArticleForm(forms.Form):
     title.widget.attrs.update({'class': 'titlebox', 'placeholder': 'Name your entry'})
     content.widget.attrs.update({'class': 'contentbox'})
 
+# Returns a page with a list of all the entries and its lenght
+
 def index(request):
     entries = util.list_entries()
     return render(request, "encyclopedia/index.html", {
@@ -23,12 +25,18 @@ def index(request):
         "total_entries": len(entries),
     })
 
+# Returns a page with the contents of an entry or an error page if it doesn't exist
+
 def entry (request, entry):
     try:
         content = markdown2.markdown(util.get_entry(entry), extras=["tables", "fenced-code-blocks"])
         return render(request, "encyclopedia/entry.html", {"content": content, "entry": entry})
     except TypeError:
         return render (request, "encyclopedia/404.html", {"entry": entry.capitalize()})
+
+# Returns a page with a list of all the entries that contains the get request as a substring
+# If there is an exact match, redirects to that entry instead
+# If there aren't any results then displays an error message
 
 def search (request):
     # List with all the entries
@@ -53,9 +61,15 @@ def search (request):
         "input": input,
     })
 
+# Redirects to a random page in the entry list
+
 def randompage (request):
     a = random.choice(util.list_entries())
     return redirect ("wiki:entry", a)
+
+# If it receives a get request, displays the form for the creation of a new entry
+
+# Then when receiving a post request, it creates a new markdown file with the contents filled by the user
 
 def newpage (request):
     if request.method == "POST":
@@ -68,13 +82,19 @@ def newpage (request):
                     "form": form,
                     "error": 'This article already exist!'})
             
-            content = '# '+ form.cleaned_data["title"] + '\n\n' + form.cleaned_data["content"]
-            util.save_entry(form.cleaned_data["title"], content)
+            util.save_entry(form.cleaned_data["title"], form.cleaned_data["content"])
             return redirect("wiki:entry", form.cleaned_data["title"])
     return render (request, "encyclopedia/new.html", {
         "form": ArticleForm(),
         "error": '',
     })
+
+# When receving a get request, displays a form similar to the one in the newpage view
+# but it comes already filled with the contents of its corresponding markdown file
+
+# Then when it receives a post request by the user it overwrites the entry with the data in the new request
+
+# The user can't change the name of the file by design
 
 def editpage (request, entry):
     if request.method == "POST":

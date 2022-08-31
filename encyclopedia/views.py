@@ -5,6 +5,8 @@ import random
 from . import util
 import markdown2
 
+# This class defines the form required to edit an article and its respective styles
+
 class ArticleForm(forms.Form):
     title = forms.CharField(label="Title" )
     content = forms.CharField(max_length = 20000, label = "Content", widget=forms.Textarea(attrs = {'cols': 'auto',
@@ -12,15 +14,6 @@ class ArticleForm(forms.Form):
     'placeholder': '# Title \n\nStart typing your article here!'}))
 
     title.widget.attrs.update({'class': 'titlebox', 'placeholder': 'Name your entry'})
-    content.widget.attrs.update({'class': 'contentbox'})
-
-class EditArticleForm (forms.Form):
-    title = forms.CharField(label="Title" )
-    content = forms.CharField(max_length = 20000, label = "Content", widget=forms.Textarea(attrs = {'cols': 'auto',
-    'rows': '5',
-    'placeholder': '# Title \n\nStart typing your article here!'}))
-
-    title.widget.attrs.update({'class': 'titlebox', 'readonly': 'readonly'})
     content.widget.attrs.update({'class': 'contentbox'})
 
 def index(request):
@@ -98,7 +91,7 @@ def editpage (request, entry):
         })
 
     else:
-        form = EditArticleForm ({'title': entry, 'content': util.get_entry(entry)})
+        form = ArticleForm ({'title': entry, 'content': util.get_entry(entry)})
         return render (request, "encyclopedia/edit.html", {
         "form": form,
         "error": '',

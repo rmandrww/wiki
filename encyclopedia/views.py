@@ -9,7 +9,7 @@ class ArticleForm(forms.Form):
     title = forms.CharField(label="Title" )
     content = forms.CharField(max_length = 20000, label = "Content", widget=forms.Textarea(attrs = {'cols': 'auto',
     'rows': '5',
-    'placeholder': 'Start typing your article here!'}))
+    'placeholder': '# Title \n\nStart typing your article here!'}))
 
     title.widget.attrs.update({'class': 'titlebox', 'placeholder': 'Name your entry'})
     content.widget.attrs.update({'class': 'contentbox'})
@@ -18,7 +18,7 @@ class EditArticleForm (forms.Form):
     title = forms.CharField(label="Title" )
     content = forms.CharField(max_length = 20000, label = "Content", widget=forms.Textarea(attrs = {'cols': 'auto',
     'rows': '5',
-    'placeholder': 'Start typing your article here!'}))
+    'placeholder': '# Title \n\nStart typing your article here!'}))
 
     title.widget.attrs.update({'class': 'titlebox', 'readonly': 'readonly'})
     content.widget.attrs.update({'class': 'contentbox'})
